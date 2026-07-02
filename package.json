@@ -13,9 +13,6 @@
     "generate-icons-android": "npx capacitor-assets generate --android",
     "generate-icons-ios": "npx capacitor-assets generate --ios",
     "generate-icons-pwa": "npx capacitor-assets generate --pwa"
-
-
-
   },
   "private": true,
   "dependencies": {
@@ -27,6 +24,7 @@
     "@angular/platform-browser": "20.3.25",
     "@angular/platform-browser-dynamic": "20.3.25",
     "@angular/router": "20.3.25",
+    "@capacitor/android": "8.4.1",
     "@capacitor/app": "8.1.0",
     "@capacitor/core": "8.4.1",
     "@capacitor/haptics": "8.0.2",
