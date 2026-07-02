@@ -1,17 +1,15 @@
+
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
-  },
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
-  },
-  {
     path: 'clasification-table',
     loadComponent: () => import('./pages/clasification-table/clasification-table.page').then( m => m.ClasificationTablePage)
   },
+  {
+    path: '',
+    redirectTo: 'clasification-table',
+    pathMatch: 'full',
+  },
+  
 ];
