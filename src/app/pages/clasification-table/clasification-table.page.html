@@ -1,13 +1,100 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>clasification-table</ion-title>
+    <ion-title>Tabla de Posiciones</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">clasification-table</ion-title>
+      <ion-title size="large">Tabla de Posiciones</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <div class="filters">
+    <ion-item>
+      <ion-label>Liga</ion-label>
+      <ion-select
+        placeholder="Selecciona una liga"
+        interface="popover"
+        [(ngModel)]="selectedLeagueId"
+        (ionChange)="onLeagueChange($event.detail.value)">
+        @for (league of leagues; track league.idLeague) {
+          <ion-select-option [value]="league.idLeague">
+            {{ league.strLeagueAlternate || league.strLeague }}
+          </ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Temporada</ion-label>
+      <ion-select
+        placeholder="Selecciona una temporada"
+        interface="popover"
+        [disabled]="!seasons.length"
+        [(ngModel)]="selectedSeason"
+        (ionChange)="onSeasonChange($event.detail.value)">
+        @for (season of seasons; track season.strSeason) {
+          <ion-select-option [value]="season.strSeason">
+            {{ season.strSeason }}
+          </ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
+  </div>
+
+  @if (loadingLeagues || loadingSeasons || loadingTable) {
+    <div class="loading">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  }
+
+  @if (standings.length && !loadingTable) {
+    <div class="table-wrapper">
+      <table class="clasification-table">
+        <thead>
+          <tr>
+            <th class="col-rank">#</th>
+            <th class="col-team">Equipo</th>
+            <th>PJ</th>
+            <th>G</th>
+            <th>E</th>
+            <th>P</th>
+            <th>GF</th>
+            <th>GC</th>
+            <th>DG</th>
+            <th>Pts</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (team of standings; track team.idTeam) {
+            <tr [class]="getRowClass(team.strDescription)">
+              <td class="col-rank">{{ team.intRank }}</td>
+              <td class="col-team">
+                <div class="team-cell">
+                  <img [src]="team.strBadge" [alt]="team.strTeam" class="badge" />
+                  <span>{{ team.strTeam }}</span>
+                </div>
+              </td>
+              <td>{{ team.intPlayed }}</td>
+              <td>{{ team.intWin }}</td>
+              <td>{{ team.intDraw }}</td>
+              <td>{{ team.intLoss }}</td>
+              <td>{{ team.intGoalsFor }}</td>
+              <td>{{ team.intGoalsAgainst }}</td>
+              <td>{{ team.intGoalDifference }}</td>
+              <td class="col-points">{{ team.intPoints }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (!standings.length && !loadingTable && selectedSeason) {
+    <div class="empty-state">
+      <p>No hay datos disponibles para esta temporada.</p>
+    </div>
+  }
 </ion-content>

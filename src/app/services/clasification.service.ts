@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CapacitorHttp, HttpResponse } from '@capacitor/core';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { ILeague } from '../models/league.model';
 import { from } from 'rxjs/internal/observable/from';
 import { ISeason } from '../models/season.model';
@@ -24,7 +24,7 @@ export class ClasificationService {
       }
       return leagues
           .filter(league => CODE_LEAGUES.includes(league.idLeague))
-          .sort( (a, b) => a.strLeagueAlternate < b.strLeagueAlternate ? -1 : 1 );
+          .sort( (a, b) => (a.strLeagueAlternate || a.strLeague) < (b.strLeagueAlternate || b.strLeague) ? -1 : 1 );
     }).catch( (error)=> {
       return [];
     }))
